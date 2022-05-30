@@ -18,6 +18,7 @@
   "author": "Marston Connell <marston.ian.connell@gmail.com>",
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
+    "make-random": "^3.0.0",
     "secretjs": "^0.17.5"
   },
   "devDependencies": {
