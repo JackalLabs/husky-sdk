@@ -17,7 +17,9 @@
   ],
   "author": "Marston Connell <marston.ian.connell@gmail.com>",
   "license": "SEE LICENSE IN LICENSE",
-  "dependencies": {},
+  "dependencies": {
+    "secretjs": "^0.17.5"
+  },
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.32",
