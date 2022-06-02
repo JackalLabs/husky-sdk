@@ -1,12 +1,12 @@
-import BasicStorageContract from "./modules/BasicStorageContract";
-import ContractConfig from "./interfaces/IContractConfig";
-import {Fees} from "./interfaces/IFees";
+import {StorageContract} from "./modules/StorageContract";
+import JackalIo from "./modules/JackalIo";
 
-class Blah extends BasicStorageContract {
-    constructor(cfg: ContractConfig, fees?: Fees) {
-        super(cfg, fees)
-    }
-}
+/**
+ * handles all contract creation and management
+ */
+// const scrt = new StorageContract()
 
-const contract = new Blah({}, '')
-contract.customQuery({})
+/**
+ * handles all communication with the jackal network
+ */
+// const io = new JackalIo()

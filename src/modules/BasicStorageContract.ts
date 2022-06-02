@@ -7,8 +7,11 @@ import Msg from "../interfaces/IMsg";
 import HandleMsg from "../interfaces/IHandleMsg";
 
 export default class BasicStorageContract implements BasicStorageContractFrame {
+    /** @internal */
     contractAddr: string
+    /** @internal */
     pubkeyAddr: string
+    /** @internal */
     session?: SecretJs.SigningCosmWasmClient
 
     constructor(cfg: ContractConfig, fees?: Fees) {

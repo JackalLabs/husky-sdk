@@ -3,6 +3,7 @@ import Msg from "../interfaces/IMsg";
 import * as SecretJs from "secretjs";
 import HandleMsg from "../interfaces/IHandleMsg";
 
+/** @internal */
 export const stockFees: Fees = {
     upload: {
         amount: [{
@@ -33,6 +34,7 @@ export const stockFees: Fees = {
         gas: "80000",
     },
 }
+/** @internal */
 export async function query (session: SecretJs.SigningCosmWasmClient | undefined, contract: string, msg: Msg): Promise<string[]> {
     if (session) {
         return await session.queryContractSmart(contract, msg)
@@ -44,6 +46,7 @@ export async function query (session: SecretJs.SigningCosmWasmClient | undefined
     }
 }
 
+/** @internal */
 export async function message (session: SecretJs.SigningCosmWasmClient | undefined, contract: string, msg: HandleMsg): Promise<boolean> {
     if (session) {
         await session.execute(contract, msg)
