@@ -6,10 +6,10 @@ import {Fees} from "../interfaces/IFees";
 import Msg from "../interfaces/IMsg";
 import BasicStorageContract from "./BasicStorageContract";
 import HandleMsg from "../interfaces/IHandleMsg";
-import {IPFSCreate, IPFSMove, IPFSMultiCreate, IPFSRemoveReset, IPFSSetPermission} from "../interfaces/IIPFS";
-import BasicStorageContractFrame from "../interfaces/IClasses/IStorageContract";
+import {IPFSMove, IPFSMultiCreate, IPFSRemoveReset, IPFSSetPermission} from "../interfaces/IIPFS";
+import StorageContractFrame from "../interfaces/IClasses/IStorageContract";
 
-export class StorageContract extends BasicStorageContract implements BasicStorageContractFrame{
+export class StorageContract extends BasicStorageContract implements StorageContractFrame{
     constructor(cfg: ContractConfig, fees?: Fees) {
         super(cfg, fees)
     }
@@ -72,14 +72,14 @@ export class StorageContract extends BasicStorageContract implements BasicStorag
         }
         return message(this.session, this.contractAddr, msg)
     }
-    storeFile (data: IPFSCreate): Promise<boolean> {
-        const msg: HandleMsg = {
-            handleMsg: {
-                create: data
-            }
-        }
-        return message(this.session, this.contractAddr, msg)
-    }
+    // storeFile (data: IPFSCreate): Promise<boolean> {
+    //     const msg: HandleMsg = {
+    //         handleMsg: {
+    //             create: data
+    //         }
+    //     }
+    //     return message(this.session, this.contractAddr, msg)
+    // }
     storeFiles (data: IPFSMultiCreate): Promise<boolean> {
         const msg: HandleMsg = {
             handleMsg: {
@@ -88,14 +88,14 @@ export class StorageContract extends BasicStorageContract implements BasicStorag
         }
         return message(this.session, this.contractAddr, msg)
     }
-    removeFile (data: IPFSRemoveReset): Promise<boolean> {
-        const msg: HandleMsg = {
-            handleMsg: {
-                remove: data
-            }
-        }
-        return message(this.session, this.contractAddr, msg)
-    }
+    // removeFile (data: IPFSRemoveReset): Promise<boolean> {
+    //     const msg: HandleMsg = {
+    //         handleMsg: {
+    //             remove: data
+    //         }
+    //     }
+    //     return message(this.session, this.contractAddr, msg)
+    // }
     removeFiles (data: string[]): Promise<boolean> {
         const msg: HandleMsg = {
             handleMsg: {

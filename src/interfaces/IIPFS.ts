@@ -19,5 +19,5 @@ export interface IPFSRemoveReset {
 }
 export interface IPFSSetPermission {
 	address: string,
-	path: string
+	path: string[]
 }

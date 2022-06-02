@@ -7,7 +7,7 @@ import {randomString} from "make-random";
 import HandleMsg from "../IHandleMsg";
 import {IPFSCreate, IPFSMove, IPFSMultiCreate, IPFSRemoveReset, IPFSSetPermission} from "../IIPFS";
 
-export default interface BasicStorageContractFrame {
+export default interface StorageContractFrame {
     // contract query routes
     getContents(viewingKey: string, filePath: string): Promise<string[]>
     getNodeList(size: number): Promise<string[]>
@@ -17,9 +17,9 @@ export default interface BasicStorageContractFrame {
     // contract message routes
     initAddress(): Promise<boolean>
     createViewingKey(): Promise<boolean>
-    storeFile(data: IPFSCreate): Promise<boolean>
+    // storeFile(data: IPFSCreate): Promise<boolean>
     storeFiles(data: IPFSMultiCreate): Promise<boolean>
-    removeFile(data: IPFSRemoveReset): Promise<boolean>
+    // removeFile(data: IPFSRemoveReset): Promise<boolean>
     removeFiles(data: string[]): Promise<boolean>
     moveFile(data: IPFSMove): Promise<boolean>
     allowRead(data: IPFSSetPermission): Promise<boolean>

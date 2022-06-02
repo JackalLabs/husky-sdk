@@ -44,7 +44,7 @@ export default class JackalIo {
     async hoover (file: File, myAddress: string): Promise<NodeUploadResponse> {
         const myIv = genIv()
         const myKey = await genKey()
-        return await readFile(file)
+        const uploadResult = await readFile(file)
             .then(async ({content, meta}) => {
                 const ret: File[] = await Promise.all(chunky(content)
                     .map(async (data) => {
