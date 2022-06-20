@@ -1,37 +1,64 @@
 import {chunky, readFile} from "../helpers/teardown";
 import TimeMarkers from "../interfaces/ITimeMarkers";
-import {buildEncryptedFile, genIv, genKey, oneWayString} from "../helpers/crypt";
+import {buildEncryptedFile, genIv, genKey} from "../helpers/crypt";
 import {randomCaseString} from "make-random";
 import FormData from "form-data";
 import {jklNodePost} from "../helpers/transmit";
-import NodeUploadResponse from "../interfaces/INodeTypes/INodeUploadResponse";
-
+import NodeHooverResponse from "../interfaces/INodeTypes/INodeHooverResponse";
+import NodeResponse from "../interfaces/INodeTypes/INodeResponse";
 
 export default class JackalIo {
-    overrideNode?: string
-    node?: string
+    priorityList: string[]
+    node: string
     timeModifier: number
     timer: number
 
-    constructor(timeCounts: TimeMarkers, overrideNode?: string) {
+    constructor(timeCounts?: TimeMarkers, priorityList?: string[]) {
         this.timeModifier = this.calcModifier(timeCounts)
         this.timer = Date.now() + this.timeModifier
-        this.overrideNode = overrideNode || ''
+        this.priorityList = priorityList || []
+        this.node = (priorityList && priorityList.length) ? priorityList[0] : ''
     }
 
-    setNode (node: string): void {
-        if (Date.now() > this.timer) {
-            this.node = node
+    async refreshNode (node: string): Promise<boolean> {
+        if (this.priorityList.length) {
+            const priorityNode = await Promise.any(this.priorityList.map(url => {
+                return fetch(`https://${url}`)
+                    .then(res => res.json())
+                    .then((res: NodeResponse) => {
+                        if (res.jcode === 2000) {
+                            return url
+                        } else {
+                            throw new Error('Bad Connection')
+                        }
+                    })
+            }))
+            if (priorityNode && priorityNode.length) {
+                this.node = priorityNode
+                return true
+            } else {
+                return false
+            }
         } else {
-            throw new Error('Refresh not ready')
+
+
+            return false
         }
+
     }
     getCurrentNode (): string {
-        return this.overrideNode || this.node || 'NA'
+        return this.node
     }
-    calcModifier (tc: TimeMarkers): number {
+    isTimerExpired (): boolean {
+        return (this.timeModifier > 0 && Date.now() > this.timer)
+    }
+    updateTimerExpiration (): number {
+        this.timer = Date.now() + this.timeModifier
+        return this.timer
+    }
+    calcModifier (tc: TimeMarkers | undefined): number {
         const ms = 1000
-        const {s, m, h, d, w} = tc
+        const {s, m, h, d, w} = tc || {}
         return [
             (ms * Number(s) || 0),
             (ms * 60 * Number(m) || 0),
@@ -41,7 +68,7 @@ export default class JackalIo {
         ].reduce((a, b) => a + b, 0)
     }
 
-    async hoover (file: File, myAddress: string): Promise<NodeUploadResponse> {
+    async hoover (file: File, myAddress: string): Promise<NodeHooverResponse> {
         const myIv = genIv()
         const myKey = await genKey()
         const uploadResult = await readFile(file)
@@ -72,17 +99,22 @@ export default class JackalIo {
                 myFD.append('pkey', randomCaseString(16))
                 myFD.append('skey', randomCaseString(16))
 
-                return await jklNodePost(`https://${this.overrideNode || this.node}/upload`, myFD)
+                return await jklNodePost(`https://${this.node}/upload`, myFD)
             })
+        return {
+            iv: myIv,
+            key: myKey,
+            info: uploadResult
+        }
     }
 
-    stashSecrets () {
-
+    stashSecrets (func: any) {
+// todo
     }
 
     receiveBacon () {
         return
-        return new File([new Blob([new Uint8Array(data)], { endings: 'native' })], `${await oneWayString(meta.name + randomCaseString(4, ''))}.jkl`, { type: 'text/plain' })
+        // return new File([new Blob([new Uint8Array(data)], { endings: 'native' })], `${await oneWayString(meta.name + randomCaseString(4, ''))}.jkl`, { type: 'text/plain' })
 
     }
 }

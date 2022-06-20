@@ -7,9 +7,9 @@ import Msg from "../interfaces/IMsg";
 import BasicStorageContract from "./BasicStorageContract";
 import HandleMsg from "../interfaces/IHandleMsg";
 import {IPFSMove, IPFSMultiCreate, IPFSRemoveReset, IPFSSetPermission} from "../interfaces/IIPFS";
-import StorageContractFrame from "../interfaces/IClasses/IStorageContract";
+import UserStorageContractFrame from "../interfaces/IClasses/IUserStorageContract";
 
-export class StorageContract extends BasicStorageContract implements StorageContractFrame{
+export class UserStorageContract extends BasicStorageContract implements UserStorageContractFrame {
     constructor(cfg: ContractConfig, fees?: Fees) {
         super(cfg, fees)
     }
