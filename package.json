@@ -1,5 +1,5 @@
 {
-  "name": "huskyjs",
+  "name": "husky-sdk",
   "version": "1.0.0",
   "description": "The JACKAL Core SDK",
   "main": "dist/index.js",
@@ -16,8 +16,26 @@
     "cosmos",
     "sdk"
   ],
-  "author": "Marston Connell <marston.ian.connell@gmail.com>",
+  "contributors": [
+    {
+      "name" : "Jackal Labs",
+      "email" : "devadmin@jackallabs.io",
+      "url" : "https://jackallabs.io"
+    },
+    {
+      "name" : "Erin Rivas",
+      "email" : "erin@jackallabs.io"
+    }
+  ],
   "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JackalLabs/husky-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JackalLabs/husky-sdk/issues"
+  },
+  "homepage": "https://github.com/JackalLabs/husky-sdk/#readme",
   "dependencies": {
     "@keplr-wallet/types": "^0.10.5",
     "form-data": "^4.0.0",
