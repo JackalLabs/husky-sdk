@@ -2,7 +2,7 @@ import {randomString} from "make-random";
 
 import {message, query} from "../helpers/contract";
 import ContractConfig from "../interfaces/IContractConfig";
-import {Fees} from "../interfaces/IFees";
+import Fees from "../interfaces/IFees";
 import Msg from "../interfaces/IMsg";
 import BasicStorageContract from "./BasicStorageContract";
 import HandleMsg from "../interfaces/IHandleMsg";

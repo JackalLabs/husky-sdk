@@ -1,6 +1,6 @@
 import * as SecretJs from "secretjs";
 import ContractConfig from "../IContractConfig";
-import {Fees} from "../IFees";
+import Fees from "../IFees";
 import Msg from "../IMsg";
 import {message, query} from "../../helpers/contract";
 import {randomString} from "make-random";

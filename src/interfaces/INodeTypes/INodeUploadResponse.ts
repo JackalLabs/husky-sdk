@@ -1,11 +1,10 @@
-export default interface NodeUploadResponse {
+import NodeCoreUploadResponse from "./INodeCoreUploadResponse";
+
+export default interface NodeUploadResponse extends NodeCoreUploadResponse{
+    node: string,
     sent: {
         address: string,
         pkey: string,
         skey: string
-    },
-    cid: string,
-    miners: string[],
-    dataId: string,
-    node: string
+    }
 }

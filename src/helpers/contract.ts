@@ -1,4 +1,4 @@
-import {Fees} from "../interfaces/IFees";
+import Fees from "../interfaces/IFees";
 import Msg from "../interfaces/IMsg";
 import * as SecretJs from "secretjs";
 import HandleMsg from "../interfaces/IHandleMsg";

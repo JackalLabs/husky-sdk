@@ -1,6 +1,6 @@
-import {FileMeta} from "./IFileMeta";
+import FileMeta from "./IFileMeta";
 
-export interface FileBuffer {
+export default interface FileBuffer {
     content: ArrayBuffer,
     meta: FileMeta
 }

@@ -1,6 +1,6 @@
-import {FeeAmount} from "./IFeeAmount";
+import FeeAmount from "./IFeeAmount";
 
-export interface FeeDetails {
+export default interface FeeDetails {
     amount: FeeAmount[],
     gas: string,
 }

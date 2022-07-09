@@ -1,6 +1,6 @@
 import * as SecretJs from "secretjs";
 import ContractConfig from "../IContractConfig";
-import {Fees} from "../IFees";
+import Fees from "../IFees";
 import Msg from "../IMsg";
 import HandleMsg from "../IHandleMsg";
 

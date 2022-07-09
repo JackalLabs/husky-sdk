@@ -1,4 +1,4 @@
-export interface ProcessedNodeResponse {
+export default interface ProcessedNodeResponse {
     header: Headers,
     response: Promise<any>
 }

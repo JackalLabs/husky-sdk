@@ -1,4 +1,4 @@
-import { FileBuffer } from '../interfaces/IFileBuffer';
+import FileBuffer from '../interfaces/IFileBuffer';
 
 const chunkSize /** in bytes */ = 32000000
 

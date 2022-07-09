@@ -1,4 +1,4 @@
-export interface FeeAmount {
+export default interface FeeAmount {
     amount: string,
     denom: string
 }

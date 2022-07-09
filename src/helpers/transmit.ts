@@ -1,5 +1,5 @@
-import {ProcessedNodeResponse} from "../interfaces/IProcessedNodeResponse";
-import {PushConfig} from "../interfaces/IPushConfig";
+import ProcessedNodeResponse from "../interfaces/IProcessedNodeResponse";
+import PushConfig from "../interfaces/IPushConfig";
 import FormData from "form-data";
 import NodeResponse from "../interfaces/INodeTypes/INodeResponse";
 import NodeUploadResponse from "../interfaces/INodeTypes/INodeUploadResponse";

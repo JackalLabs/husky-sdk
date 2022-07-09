@@ -1,6 +1,6 @@
-import {FeeDetails} from "./IFeeDetails";
+import FeeDetails from "./IFeeDetails";
 
-export interface Fees {
+export default interface Fees {
     exec: FeeDetails,
     init: FeeDetails,
     send: FeeDetails,

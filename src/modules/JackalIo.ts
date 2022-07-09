@@ -2,10 +2,12 @@ import {chunky, readFile} from "../helpers/teardown";
 import TimeMarkers from "../interfaces/ITimeMarkers";
 import {buildEncryptedFile, genIv, genKey} from "../helpers/crypt";
 import {randomCaseString} from "make-random";
-import FormData from "form-data";
 import {jklNodePost} from "../helpers/transmit";
 import NodeHooverResponse from "../interfaces/INodeTypes/INodeHooverResponse";
 import NodeResponse from "../interfaces/INodeTypes/INodeResponse";
+import {generateUniqueRandomString} from "../helpers/utils";
+import FilePartBundle from "../interfaces/IFilePartBundle";
+import {isStringObject} from "util/types";
 
 export default class JackalIo {
     priorityList: string[]
@@ -71,40 +73,52 @@ export default class JackalIo {
     async hoover (file: File, myAddress: string): Promise<NodeHooverResponse> {
         const myIv = genIv()
         const myKey = await genKey()
-        const uploadResult = await readFile(file)
-            .then(async ({content, meta}) => {
-                const ret: File[] = await Promise.all(chunky(content)
-                    .map(async (data) => {
-                        const rdm = randomCaseString(4)
-                        return await buildEncryptedFile(data, `${meta.name + rdm}`, myIv, myKey)
-                    }))
-                const metaFile = await buildEncryptedFile((new TextEncoder()).encode(JSON.stringify(meta)).buffer, meta.name, myIv, myKey)
-                ret.unshift(metaFile)
-                return {
-                    crypt: {
-                        iv: myIv,
-                        key: myKey
-                    },
-                    files: ret
+
+        const details = await readFile(file)
+            .then(({content, meta}) => ({
+                chunks: chunky(content),
+                meta
+            }))
+            .then(async ({chunks, meta}) => {
+                const markers: string[] = []
+                const readyToSend: File[] = []
+                for (const chunk of chunks) {
+                    let tmp
+                    do {
+                        tmp = await generateUniqueRandomString(4, markers)
+                    } while (markers.includes(tmp))
+                    markers.push(tmp)
+                    readyToSend.push(await buildEncryptedFile(chunk, `${meta.name + tmp}`, myIv, myKey))
                 }
+                return {readyToSend, meta}
             })
-            .then(async (myData) => {
+            .then(async ({readyToSend, meta}) => {
                 let FD = FormData
                 if (!window) {
-                    FD = await import('form-data') as unknown as typeof FormData
+                    FD = await import('formdata-node') as unknown as typeof FormData
                 }
                 const myFD: FormData = new FD()
-                myData.files.map(rec => myFD.append('files', rec))
-                myFD.append('address', myAddress)
-                myFD.append('pkey', randomCaseString(16))
-                myFD.append('skey', randomCaseString(16))
-
+                myFD.set('address', myAddress)
+                const storage: FilePartBundle = {meta}
+                for (let i = 0; i < readyToSend.length; i++) {
+                    myFD.set('file', readyToSend[i])
+                    const {cid, dataId, miners} = await jklNodePost(`https://${this.node}/upload`, myFD)
+                    storage[i] = {cid, dataId, miners}
+                }
+                myFD.set('pkey', await randomCaseString(16))
+                myFD.set('skey', await randomCaseString(16))
+                myFD.set('file', await buildEncryptedFile(new Uint8Array(JSON.parse(JSON.stringify(storage))).buffer, `${meta.name}`, myIv, myKey))
                 return await jklNodePost(`https://${this.node}/upload`, myFD)
             })
+            .then(storage => ({
+                cid: storage.cid,
+                dataId: storage.dataId,
+                miners: storage.miners
+            }))
         return {
             iv: myIv,
             key: myKey,
-            info: uploadResult
+            info: details
         }
     }
 

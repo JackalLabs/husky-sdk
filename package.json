@@ -18,13 +18,13 @@
   ],
   "contributors": [
     {
-      "name" : "Jackal Labs",
-      "email" : "devadmin@jackallabs.io",
-      "url" : "https://jackallabs.io"
+      "name": "Jackal Labs",
+      "email": "devadmin@jackallabs.io",
+      "url": "https://jackallabs.io"
     },
     {
-      "name" : "Erin Rivas",
-      "email" : "erin@jackallabs.io"
+      "name": "Erin Rivas",
+      "email": "erin@jackallabs.io"
     }
   ],
   "license": "SEE LICENSE IN LICENSE",
@@ -38,7 +38,7 @@
   "homepage": "https://github.com/JackalLabs/husky-sdk/#readme",
   "dependencies": {
     "@keplr-wallet/types": "^0.10.5",
-    "form-data": "^4.0.0",
+    "formdata-node": "^4.3.3",
     "make-random": "^3.0.2",
     "secretjs": "^0.17.5"
   },

@@ -1,7 +1,7 @@
 import BasicStorageContractFrame from "../interfaces/IClasses/IBasicStorageContract";
 import * as SecretJs from "secretjs";
 import ContractConfig from "../interfaces/IContractConfig";
-import {Fees} from "../interfaces/IFees";
+import Fees from "../interfaces/IFees";
 import {message, query, stockFees} from "../helpers/contract";
 import Msg from "../interfaces/IMsg";
 import HandleMsg from "../interfaces/IHandleMsg";
